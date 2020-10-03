@@ -1,0 +1,9 @@
+export const NAME_CHANGE = 'NAME_CHANGE';
+export const COLOR1_CHANGE = 'COLOR1_CHANGE';
+export const COLOR2_CHANGE = 'COLOR2_CHANGE';
+export const COLOR3_CHANGE = 'COLOR3_CHANGE';
+export const COLOR4_CHANGE = 'COLOR4_CHANGE';
+export const PUSH_POINSTS = 'PUSH_POINTS';
+export const POP_POINSTS = 'POP_POINTS';
+export const ADD_POINTS = 'ADD_POINTS';
+export const REMOVE_POINTS = 'REMOVE_POINTS';

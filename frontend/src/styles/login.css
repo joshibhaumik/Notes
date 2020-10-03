@@ -1,0 +1,7 @@
+.btn-gplus {
+    background-color:#db4a39; 
+    color: white;
+}
+.btn-gplus:hover {
+    color: rgba(255, 255, 255, 0.603);
+}
