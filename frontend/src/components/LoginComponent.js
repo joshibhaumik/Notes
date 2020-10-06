@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
+import { withRouter, Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 import "../styles/login.css";
-import { Link } from "react-router-dom";
+import { loginUser } from "../actions/userActions";
 
-function Login() {
+const Login = props => {
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [password, setPassword] = useState("");
@@ -17,8 +19,11 @@ function Login() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    if(username !== "" || password !== "") {
-      // proceed
+    if (username !== "" || password !== "") {
+      props.loginUser({
+        username,
+        password
+      });
     } else {
       setError("Please provide the mandatory information to continue");
     }
@@ -29,12 +34,11 @@ function Login() {
       <Card style={{ width: 400 }}>
         <Card.Header>
           <Card.Title>Notes</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Handwritten Notes
-            </Card.Subtitle>
+          <Card.Subtitle className="mb-2 text-muted">
+            Handwritten Notes
+          </Card.Subtitle>
         </Card.Header>
         <Card.Body>
-          
           <Card.Text>
             A whiteboard or a sketchpad to take handwritten notes, and to share
             it in public and among your friends.
@@ -53,7 +57,10 @@ function Login() {
                     setUsername(e.target.value);
                     setUsernameError("");
                   }}
-                  onBlur={e=>e.target.value === "" && setUsernameError("Please enter the username")}
+                  onBlur={e =>
+                    e.target.value === "" &&
+                    setUsernameError("Please enter the username")
+                  }
                 />
                 {usernameError && (
                   <small className="text-danger">{usernameError}</small>
@@ -71,7 +78,10 @@ function Login() {
                     setPassword(e.target.value);
                     setPasswordError("");
                   }}
-                  onBlur={e=>e.target.value === "" && setPasswordError("Please enter the password")}
+                  onBlur={e =>
+                    e.target.value === "" &&
+                    setPasswordError("Please enter the password")
+                  }
                 />
                 {passwordError && (
                   <small className="text-danger">{passwordError}</small>
@@ -79,7 +89,9 @@ function Login() {
               </div>
               <div className="form-group col-sm-12 mt-2">
                 <div className="mb-2 text-center">
-                  <p>Don't have the account <Link to="/signup">Create One?</Link></p>
+                  <p>
+                    Don't have the account <Link to="/signup">Create One?</Link>
+                  </p>
                 </div>
                 <div style={{ textAlign: "center" }}>
                   <input
@@ -89,15 +101,25 @@ function Login() {
                   />
                 </div>
               </div>
-              {error && <div className="form-group col-sm-12 mt-2">
-                  <p className="text-danger"><strong>{error}</strong></p>
-              </div>}
+              {error && (
+                <div className="form-group col-sm-12 mt-2">
+                  <p className="text-danger">
+                    <strong>{error}</strong>
+                  </p>
+                </div>
+              )}
             </div>
           </form>
         </Card.Body>
       </Card>
     </div>
   );
+};
+
+const mapStateToProp = state => {
+  return {
+    isAuth: state.user.isAuthenticated
+  }
 }
 
-export default Login;
+export default withRouter(connect(mapStateToProp, { loginUser })(Login));

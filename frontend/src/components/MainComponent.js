@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 import PrivateRoute from "./features/PrivateRoute";
 
@@ -10,20 +11,27 @@ import Profile from "./ProfileComponent";
 import SignUp from "./SignUpComponent";
 
 function Main(props) {
-  const auth = false;
-
+  console.log(props.user, props.isAuth);
   return (
     <Router>
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />
         <Layout>
-          <PrivateRoute auth={auth} path={"/"} Component={Note} />
-          <PrivateRoute auth={auth} path={"/profile"} Component={Profile} />
+          <PrivateRoute auth={props.isAuth} path={"/"} Component={Note} />
+          <PrivateRoute auth={props.isAuth} path={"/profile"} Component={Profile} />
         </Layout>
       </Switch>
     </Router>
   );
 }
 
-export default Main;
+const mapStateToProps = state => {
+  return {
+    user: state.user.user,
+    isAuth: state.user.isAuthenticated,
+    isLoading: state.user.isLoading
+  }
+}
+
+export default connect(mapStateToProps,)(Main);

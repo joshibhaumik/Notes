@@ -1,6 +1,9 @@
 import React, { useEffect, useReducer } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { signupUser } from "../actions/userActions";
 
 const init = {
   username: "",
@@ -32,10 +35,12 @@ const reducer = (state = init, action) => {
   }
 };
 
-const SignUp = () => {
+const SignUp = props => {
   const [state, dispatch] = useReducer(reducer, init);
 
-  useEffect(() => (document.title = "SignUp to Notes"), []);
+  useEffect(() => {
+    document.title = "SignUp to Notes";
+  }, []);
 
   const handleSubmit = e => {
     const { check, username, password, email, confirmPassword } = state;
@@ -58,7 +63,11 @@ const SignUp = () => {
         value: "You haven't answer all the information required."
       });
     } else {
-      // create the account
+      props.signupUser({
+        username,
+        email,
+        password
+      });
     }
   };
 
@@ -89,7 +98,7 @@ const SignUp = () => {
 
   const validatePassword = e => {
     let msg = "";
-    
+    // password validation
     dispatch({
       type: "WRITE",
       key: e.target.name,
@@ -186,15 +195,15 @@ const SignUp = () => {
                   </small>
                 )}
               </div>
-              <div class="ml-3 mb-3 form-check col-sm-12">
+              <div className="ml-3 mb-3 form-check col-sm-12">
                 <input
                   type="checkbox"
-                  class="form-check-input"
+                  className="form-check-input"
                   id="T&C"
                   checked={state.check}
                   onChange={() => dispatch({ type: "TOGGLE_CHECK" })}
                 />
-                <label class="form-check-label" htmlFor="T&C">
+                <label className="form-check-label" htmlFor="T&C">
                   Terms & Conditions
                 </label>
               </div>
@@ -229,4 +238,10 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.user.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps, { signupUser })(SignUp);
