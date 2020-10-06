@@ -28,8 +28,7 @@ const initialState = {
     },
     size: 5,
     width:0,
-    height:0,
-    selected:null,
+    height:0
 }
 
 export default function(state = initialState, action) {
@@ -59,16 +58,6 @@ export default function(state = initialState, action) {
                 ...state,
                 COLOR4_CHANGE: action.payload
             };
-        case TYPES.PUSH_POINSTS:
-            return {
-                ...state,
-                undo: state.undo.push(action.payload)
-            }
-        case TYPES.POP_POINSTS:
-            return {
-                ...state,
-                undo: state.undo.pop()
-            }
         default:
             return state
     }
