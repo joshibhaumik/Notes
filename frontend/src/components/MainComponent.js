@@ -18,8 +18,8 @@ function Main(props) {
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />
         <Layout>
-          <PrivateRoute auth={props.isAuth || true} path={"/"} Component={Note} />
-          <PrivateRoute auth={props.isAuth || true} path={"/profile"} Component={Profile} />
+          <PrivateRoute auth={props.isAuth} path={"/"} Component={Note} />
+          <PrivateRoute auth={props.isAuth} path={"/profile"} Component={Profile} />
         </Layout>
       </Switch>
     </Router>

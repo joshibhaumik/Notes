@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { signupUser } from "../actions/userActions";
 
 const init = {
+  firstName:"",
+  lastName:"",
   username: "",
   email: "",
   password: "",
@@ -13,6 +15,8 @@ const init = {
   check: false,
   error: "",
   usernameError: "",
+  firstNameError: "",
+  lastNameError:"",
   passwordError: "",
   emailError: "",
   confirmPasswordError: ""
@@ -43,7 +47,7 @@ const SignUp = props => {
   }, []);
 
   const handleSubmit = e => {
-    const { check, username, password, email, confirmPassword } = state;
+    const { check, username, password, email, confirmPassword, firstName, lastName } = state;
     e.preventDefault();
     if (!check) {
       dispatch({
@@ -66,7 +70,9 @@ const SignUp = props => {
       props.signupUser({
         username,
         email,
-        password
+        password,
+        "first_name":firstName,
+        "last_name":lastName
       });
     }
   };
@@ -115,7 +121,7 @@ const SignUp = props => {
     });
 
   return (
-    <div className="center-it" style={{ top: 75 }}>
+    <div className="center-it mb-5" style={{ top: 30 }}>
       <Card style={{ width: 400 }}>
         <Card.Header>
           <Card.Title>Notes</Card.Title>
@@ -124,6 +130,38 @@ const SignUp = props => {
         <Card.Body>
           <form method="POST" onSubmit={handleSubmit}>
             <div className="row">
+              <div className="form-group col-sm-6">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  autoComplete="off"
+                  className="form-control"
+                  value={state.firstName}
+                  name="firstNameError"
+                  id="firstName"
+                  onChange={handleInput}
+                  onBlur={validateInput}
+                />
+                {state.firstNameError && (
+                  <small className="text-danger">{state.firstNameError}</small>
+                )}
+              </div>
+              <div className="form-group col-sm-6">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  autoComplete="off"
+                  className="form-control"
+                  value={state.lastName}
+                  name="lastNameError"
+                  id="lastName"
+                  onChange={handleInput}
+                  onBlur={validateInput}
+                />
+                {state.lastNameError && (
+                  <small className="text-danger">{state.lastNameError}</small>
+                )}
+              </div>
               <div className="form-group col-sm-12">
                 <label htmlFor="username">Username</label>
                 <input
