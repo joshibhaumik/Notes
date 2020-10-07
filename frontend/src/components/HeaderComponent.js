@@ -39,14 +39,15 @@ function Header() {
         </Nav>
         <Nav>
           <Nav.Link onClick={() => toggleCreateImport(true)}>
-            Create Note
+            <i className="fas fa-plus"></i>
+            {" "}Create Note
           </Nav.Link>
           <Nav.Link
             eventKey={2}
             onClick={() => toggleSettings(true)}
           >
-            <i className="fas fa-cog"></i>
-            Settings
+            <i className="fas fa-cog"></i> 
+            {" "}Settings
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
