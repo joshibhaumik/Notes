@@ -1,12 +1,16 @@
 .center-it {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0%);
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }
+
 .modal-content {
-    color: white;
-    background-color: #333;   
+  color: white;
+  background-color: #333;
 }
+
 canvas {
-    cursor: pointer;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
 }

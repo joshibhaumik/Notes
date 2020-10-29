@@ -4,19 +4,22 @@ import { connect } from "react-redux";
 
 import PrivateRoute from "./features/PrivateRoute";
 
-import Login from "./LoginComponent";
-import Note from "./NoteComponent";
 import Layout from "./Layout";
-import Profile from "./ProfileComponent";
+import Loading from "./Loading";
+import Login from "./LoginComponent";
 import SignUp from "./SignUpComponent";
+import Note from "./NoteComponent";
+import Profile from "./ProfileComponent";
 
 function Main(props) {
-  console.log(props.user, props.isAuth);
   return (
     <Router>
+        <Loading status={props.isLoading} />
       <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={SignUp} />
+        {!props.isAuth && <>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} />
+        </>}
         <Layout>
           <PrivateRoute auth={props.isAuth} path={"/"} Component={Note} />
           <PrivateRoute auth={props.isAuth} path={"/profile"} Component={Profile} />
@@ -30,8 +33,8 @@ const mapStateToProps = state => {
   return {
     user: state.user.user,
     isAuth: state.user.isAuthenticated,
-    isLoading: state.user.isLoading
+    isLoading: state.error.isLoading
   }
 }
 
-export default connect(mapStateToProps,)(Main);
+export default connect(mapStateToProps)(Main);

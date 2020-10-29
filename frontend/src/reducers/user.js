@@ -1,39 +1,28 @@
-import { USER_IS_LOADING, USER_IS_LOADED, USER_ERROR, USER_LOGOUT } from "../actions/types";
+import { USER_IS_LOADED, USER_LOGOUT } from "../actions/types";
 
 const intialState = {
-  isLoading: false,
+  token: window.localStorage.getItem("token"),
   isAuthenticated: false,
   user: {},
-  error: ""
 };
 
 export default function(state = intialState, action) {
   switch (action.type) {
-    case USER_IS_LOADING:
-      return {
-        ...state,
-        isLoading: true
-      };
     case USER_IS_LOADED:
+      window.localStorage.setItem("token",action.payload.token);
       return {
         ...state,
-        isLoading: false,
         isAuthenticated: true,
-        user: action.payload
-      };
-    case USER_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        error: JSON.stringify(action.payload)
+        user: action.payload.user,
+        token: action.payload.token
       };
     case USER_LOGOUT:
+      window.localStorage.removeItem("token");
       return {
         ...state,
-        isLoading:false,
         isAuthenticated:false,
         user:{},
-        error:""
+        token: undefined
       }
     default:
       return state;

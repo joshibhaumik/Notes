@@ -33,6 +33,11 @@ function CreateImport({ show, modify }) {
     else return "Create Note";
   };
 
+  const proceed = ()=> {
+    // do the necessary procedure
+    modify();
+  }
+
   return (
     <Modal show={show} onHide={modify} animation={true}>
       <Modal.Header closeButton>
@@ -127,7 +132,7 @@ function CreateImport({ show, modify }) {
         <button className="btn btn-secondary" onClick={modify}>
           Close
         </button>
-        <button className="btn btn-primary" onClick={modify}>
+        <button className="btn btn-primary" onClick={proceed}>
           {buttonName()}
         </button>
       </Modal.Footer>

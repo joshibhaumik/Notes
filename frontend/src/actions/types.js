@@ -1,9 +1,9 @@
 export const NAME_CHANGE = "NAME_CHANGE";
-export const COLOR1_CHANGE = "COLOR1_CHANGE";
-export const COLOR2_CHANGE = "COLOR2_CHANGE";
-export const COLOR3_CHANGE = "COLOR3_CHANGE";
-export const COLOR4_CHANGE = "COLOR4_CHANGE";
-export const USER_IS_LOADING = "USER_IS_LOADING";
+export const COLOR_CHANGE = "COLOR_CHANGE";
+export const PEN_COLOR = "PEN_COLOR";
+export const SET_PEN_SIZE = "SET_PEN_SIZE";
+export const ADD_POINTS = "ADD_POINTS";
 export const USER_IS_LOADED = "USER_IS_LOADED";
-export const USER_ERROR = "USER_ERROR";
 export const USER_LOGOUT = "USER_LOGOUT";
+export const IS_LOADING = "IS_LOADING";
+export const IS_LOADED = "IS_LOADED";

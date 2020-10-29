@@ -1,105 +1,98 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import "../styles/settings.css";
-import ColorPicker from './ColorPickerComponent';
+import ColorPicker from "./ColorPickerComponent";
+import { connect } from "react-redux";
+import { logoutUser } from "../actions/userActions";
 
-class Setting extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      setting: true,
-      displayColorPicker: false,
-      color: {
-        r: "241",
-        g: "112",
-        b: "19",
-        a: "1"
-      }
-    };
-  }
+const Setting = props => {
 
-  handleLogout() {
-    if(window.confirm('Are You Sure You Want To Log Out of Notes?')) {
-      // log them out
-      this.props.modify();
+  const [setting, toggleSetting] = useState(true);
+
+  const handleLogout = () => {
+    if (window.confirm("Are You Sure You Want To Log Out of Notes?")) {
+      props.modify();
+      props.logoutUser();
     }
   }
 
-  handleChange = color => {
-    this.setState({ color: color.rgb });
-  };
-
-  render() {
-    return (
-      <Modal
-        show={this.props.show}
-        onHide={this.props.modify}
-        animation={false}
-      >
-        <Modal.Header closeButton style={{ borderBottom: 0 }}>
-          <Modal.Title>Settings</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ padding: 0 }}>
-          <nav>
-            <button
-              className="nav-buttons"
-              onClick={() => this.setState({ setting: true })}
-            >
-              Setting
-            </button>
-            <button
-              className="nav-buttons"
-              onClick={() => this.setState({ setting: false })}
-            >
-              Share
-            </button>
-          </nav>
-          <div style={{ padding: 16 }}>
-            {this.state.setting ? this.SettingsTab() : this.SharingTab()}
+  const SettingsTab = () => (
+      <div>
+        <div className="row">
+          <div className="col-sm">
+            Color 1 <ColorPicker num={1} colors={props.note.color1} />
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <button className='btn btn-danger' onClick={this.handleLogout.bind(this)} style={{marginRight:180}}>Log Out</button>
-          <button className="btn btn-secondary" onClick={this.props.modify}>
-            Close
-          </button>
-          {this.state.setting && (
-            <button className="btn btn-primary" onClick={this.props.modify}>
-              Save Changes
-            </button>
-          )}
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
-  SettingsTab() {
-    return (
-        <div>
-            <div className='row'>
-                <div className='col-sm'>
-                    Color 1 <ColorPicker />
-                </div>
-                <div className='offset-sm-2 col-sm'>
-                    Color 2 <ColorPicker />
-                </div>
-            </div><br /><br />
-            <div className='row'>
-                <div className='col-sm'>
-                    Color 3 <ColorPicker />
-                </div>
-                <div className='offset-sm-2 col-sm'>
-                    Color 4 <ColorPicker />
-                </div>
-            </div>
+          <div className="offset-sm-2 col-sm">
+            Color 2 <ColorPicker num={2} colors={props.note.color2} />
+          </div>
         </div>
+        <br />
+        <br />
+        <div className="row">
+          <div className="col-sm">
+            Color 3 <ColorPicker num={3} colors={props.note.color3} />
+          </div>
+          <div className="offset-sm-2 col-sm">
+            Color 4 <ColorPicker num={4} colors={props.note.color4} />
+          </div>
+        </div>
+      </div>
     );
-  }
 
-  SharingTab() {
-    return <div></div>;
-  }
+  const SharingTab = () => <div></div>
+
+  return (
+    <Modal
+      show={props.show}
+      onHide={props.modify}
+      animation={false}
+    >
+      <Modal.Header closeButton style={{ borderBottom: 0 }}>
+        <Modal.Title>Settings</Modal.Title>
+      </Modal.Header>
+      <Modal.Body style={{ padding: 0 }}>
+        <nav>
+          <button
+            className="nav-buttons"
+            onClick={() => toggleSetting(true)}
+          >
+            Setting
+          </button>
+          <button
+            className="nav-buttons"
+            onClick={() => toggleSetting(false)}
+          >
+            Share
+          </button>
+        </nav>
+        <div style={{ padding: 16 }}>
+          {setting ? SettingsTab() : SharingTab()}
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <button
+          className="btn btn-danger"
+          onClick={handleLogout}
+          style={{ position: "absolute", left: 12 }}
+        >
+          Log Out
+        </button>
+        <button className="btn btn-secondary" onClick={props.modify}>
+          Close
+        </button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
 
-export default Setting;
+const mapStateToProps = state => ({
+  note: state.note
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    logoutUser
+  }
+)(Setting);

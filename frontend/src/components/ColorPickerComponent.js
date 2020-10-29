@@ -1,42 +1,34 @@
 import React, { useState } from "react";
 import { SketchPicker } from "react-color";
+import { connect } from "react-redux";
 
+import { colorChange } from "../actions/noteActions";
 import "../styles/colorPicker.css";
 
-function ColorPicker() {
-  const [state, modify] = useState({
-    color: {
-      r: "0",
-      g: "13",
-      b: "74",
-      a: "1.0"
-    },
-    renderIt: false
-  });
+function ColorPicker(props) {
+  const [show, toggleShow] = useState(false);
   return (
     <>
       <div
         className="swatch"
-        onClick={() => modify({ ...state, renderIt: !state.renderIt })}
+        onClick={() => toggleShow(!show)}
       >
         <div
           className="color"
           style={{
-            backgroundColor: `rgba(${state.color.r}, ${state.color.g}, ${state.color.b}, ${state.color.a})`
+            backgroundColor: `rgba(${props.colors.r}, ${props.colors.g}, ${props.colors.b}, ${props.colors.a})`
           }}
         />
       </div>
-      {state.renderIt && (
+      {show && (
         <div className="popover">
           <div
             className="cover"
-            onClick={() => modify({ ...state, renderIt: false })}
+            onClick={() => toggleShow(false)}
           />
           <SketchPicker
-            color={state.color}
-            onChange={color => {
-              modify({ ...state, color: color.rgb });
-            }}
+            color={props.colors}
+            onChange={color => props.colorChange(color.rgb, props.num)}
           />
         </div>
       )}
@@ -44,4 +36,10 @@ function ColorPicker() {
   );
 }
 
-export default ColorPicker;
+const mapStateToProps = state => ({
+  note: state.note
+});
+
+export default connect(mapStateToProps, {
+  colorChange
+})(ColorPicker);

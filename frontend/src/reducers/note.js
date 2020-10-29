@@ -1,11 +1,17 @@
-import * as TYPES from '../actions/types';
+import {
+    NAME_CHANGE,
+    COLOR_CHANGE,
+    PEN_COLOR,
+    SET_PEN_SIZE,
+    ADD_POINTS
+} from '../actions/types';
 
 const initialState = {
     name:'',
-    color1:{
-        r:'0',
-        g:'0',
-        b:'0',
+    color1: {
+        r:'255',
+        g:'255',
+        b:'255',
         a:'1'
     },
     color2:{
@@ -20,44 +26,51 @@ const initialState = {
         b:'0',
         a:'1'
     },
-    color4:{
+    color4: {
         r:'222',
         g:'18',
         b:'0',
         a:'1'
     },
-    size: 5,
-    width:0,
-    height:0
+    penColor: {
+        r:'255',
+        g:'255',
+        b:'255',
+        a:'1'
+    },
+    size: 7,
+    width:window.innerWidth,
+    height:window.innerHeight - 5.001,
+    points: ""
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
-        case TYPES.NAME_CHANGE:
+        case NAME_CHANGE:
             return {
                 ...state,
                 name:action.payload
             };
-        case TYPES.COLOR1_CHANGE:
+        case COLOR_CHANGE:
             return {
                 ...state,
-                COLOR1_CHANGE: action.payload
+                [action.color]: action.payload
             };
-        case TYPES.COLOR2_CHANGE:
+        case PEN_COLOR:
             return {
                 ...state,
-                COLOR2_CHANGE: action.payload
-            };
-        case TYPES.COLOR3_CHANGE:
+                penColor: action.payload
+            }
+        case SET_PEN_SIZE:
             return {
                 ...state,
-                COLOR3_CHANGE: action.payload
-            };
-        case TYPES.COLOR4_CHANGE:
+                size: action.payload
+            }
+        case ADD_POINTS:
             return {
                 ...state,
-                COLOR4_CHANGE: action.payload
-            };
+                points: state.points + action.payload
+            }
         default:
             return state
     }
